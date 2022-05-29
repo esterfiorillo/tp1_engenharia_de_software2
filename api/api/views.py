@@ -11,6 +11,21 @@ from api.elastic_queries import ElasticSearchQueries
 from api.filters_utils import FilterUtils
 
 
+def search_page(param1, param2):
+
+    if param2 in params:
+        result = queries.search_by_name(
+            name = params[param1],
+            filters = FilterUtils.generate_filters(params),
+            page = int(params[param2])
+        )
+    else:
+        result = queries.search_by_name(
+            name=params[param1],
+            filters=FilterUtils.generate_filters(params)
+        )
+    return result
+
 class RecipesViewSet(viewsets.ViewSet):
     """
     Elasticsearch recipes controler
@@ -44,30 +59,14 @@ class RecipesViewSet(viewsets.ViewSet):
             queries = ElasticSearchQueries()
             
             if 'name' in params:
-                if 'page' in params:
-                    result = queries.search_by_name(
-                        name = params['name'],
-                        filters = FilterUtils.generate_filters(params),
-                        page = int(params['page'])
-                    )
-                else:
-                    result = queries.search_by_name(
-                        name=params['name'],
-                        filters=FilterUtils.generate_filters(params)
-                    )
+                result = search_page('name', 'page')
+
                 
             elif 'ingredients' in params:
-                if 'page' in params:
-                    result = queries.search_by_ingredients(
-                        ingredients=params['ingredients'].split(','),
-                        filters=FilterUtils.generate_filters(params),
-                        page=int(params['page'])
-                    )
-                else:
-                    result = queries.search_by_ingredients(
-                        ingredients=params['ingredients'].split(','),
-                        filters=FilterUtils.generate_filters(params)
-                    )
+                result = search_page('ingredients', 'page')
+
+            elif 'title' in params:
+                result = search_page('title', 'page')
 
             else:
                 return Response(
