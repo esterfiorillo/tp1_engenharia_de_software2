@@ -32,6 +32,28 @@ def generate_others(params, filters, p1, p2, field):
             params[p2] if p2 in params else 10000000
         )
 
+def querie_range(queries, field_name, field_value):
+    if isinstance(field_value, tuple):
+        queries.append(
+            {
+                "range": {
+                    field_name: {
+                        "gte": field_value[0],
+                        "lte": field_value[1]
+                    }
+                }
+            }
+        )
+
+def querie_terms(queries, field_name, field_value):
+    if isinstance(field_value, list):
+        queries.append(
+            {
+                "terms": {
+                    field_name+".keyword": field_value
+                }
+            }
+        )
 
 class FilterUtils:
     
@@ -54,7 +76,6 @@ class FilterUtils:
             return None
         return filters
 
-
     def get_filter_queries(filters):
         """
         Returns a list of query dictionaries for filtering.
@@ -67,27 +88,10 @@ class FilterUtils:
         """
         queries = []
         for field_name, field_value in filters.items():
-            if isinstance(field_value, tuple):
-                queries.append(
-                    {
-                        "range": {
-                            field_name: {
-                                "gte": field_value[0],
-                                "lte": field_value[1]
-                            }
-                        }
-                    }
-                )
-            elif isinstance(field_value, list):
-                queries.append(
-                    {
-                        "terms": {
-                            field_name+".keyword": field_value
-                        }
-                    }
-                )
-        return queries
-        
+            querie_range(queries, field_name, field_value)
+            querie_terms(queries, field_name, field_value)
+
+        return queries   
 
     def get_query_by_name_filtred(name, filters=None, fuzziness=1):
         """
