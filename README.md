@@ -8,7 +8,8 @@ Sistema para auxiliar a encontrar receitas baseadas nos ingredientes que a pesso
 - Pedro Wildemberg
 
 **Tecnologias**:
-- Back-end: Django
-- Front-end: Vue.js
-- DataBase: PostgreSQL
+- API: Django
+- Banco de dadps: ElasticSearch
+- Test: Elasticmock e Mock
+
 
