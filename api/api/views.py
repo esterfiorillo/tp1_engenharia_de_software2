@@ -11,7 +11,7 @@ from api.elastic_queries import ElasticSearchQueries
 from api.filters_utils import FilterUtils
 
 
-def search_page(param1, param2):
+def search_page(queries, params, param1, param2):
 
     if param2 in params:
         result = queries.search_by_name(
@@ -59,14 +59,14 @@ class RecipesViewSet(viewsets.ViewSet):
             queries = ElasticSearchQueries()
             
             if 'name' in params:
-                result = search_page('name', 'page')
+                result = search_page(queries, params, 'name', 'page')
 
                 
             elif 'ingredients' in params:
-                result = search_page('ingredients', 'page')
+                result = search_page(queries, params, 'ingredients', 'page')
 
             elif 'title' in params:
-                result = search_page('title', 'page')
+                result = search_page(queries, params, 'title', 'page')
 
             else:
                 return Response(
