@@ -35,4 +35,5 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
-        python api/manage.py test
+        cd api
+        python manage.py test
