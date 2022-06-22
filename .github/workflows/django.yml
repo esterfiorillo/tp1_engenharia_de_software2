@@ -33,6 +33,10 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+    - name: Create ElasticSearch mapping
+      run: |
+        cd ./database/indexer
+        python update_mapping.py -force_reindexation recipes
     - name: Run Tests
       run: |
         cd api
