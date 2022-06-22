@@ -10,11 +10,19 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    services:
+      # How to use Elasticsearch
+      elasticsearch:
+        image: elasticsearch:7.15.1
+        ports:
+        - 9200/tcp
+        options: -e="discovery.type=single-node" --health-cmd="curl http://localhost:9200/_cluster/health" --health-interval=10s --health-timeout=5s --health-retries=10
+        
     strategy:
       max-parallel: 4
       matrix:
         python-version: [3.7, 3.8, 3.9]
-
+  
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
