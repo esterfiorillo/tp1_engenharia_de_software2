@@ -1,3 +1,4 @@
+from unittest import skip
 from django.test import TestCase
 from api.views import RecipesViewSet
 from django.test import Client
@@ -7,6 +8,7 @@ import json
 #os testes para ver se retornou pelo menos uma receita poderiam ser testes separados
 #porém, o teste de checar as receitas dependem de ter retornado alguma receita
 #como eram para ser implementados 5 testes achei melhor comprimir esses testes que testam mesmo comportamento
+@skip('Integration test')
 class SearchesTestCase(TestCase):
     def setUp(self):
        self.client = Client()
