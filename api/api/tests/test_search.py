@@ -16,6 +16,7 @@ class SearchesTestCase(TestCase):
         documents = json.loads(response.content)
         #checar se retornou pelo menos uma receita
         self.assertGreater(len(documents),0)
+        print(documents)
         #checar se a receitas são adequadas
         for line in documents:
             self.assertIn('ovo',line['raw_text'])
