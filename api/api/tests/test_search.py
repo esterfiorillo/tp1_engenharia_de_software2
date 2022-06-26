@@ -5,6 +5,7 @@ from django.test import Client
 import json
 
 #testes de integração do sistema, dependem de views, elastic_queries,filter_utils e da base de dados
+#O teste está comentado pois não conseguimos fazer ele funcionar no github actions devido ao elastic search
 @skip('Integration test')
 class SearchesTestCase(TestCase):
     def setUp(self):
